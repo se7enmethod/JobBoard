@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Trip</title>
+  </head>
+  <body>
+    <h2>Hello {{user_name}}! Read about this trip!</h2>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/logout">Logout</a>
+    <h3>{{this_trip.destination}}</h3>
+    <ul>
+      <li>Start Date: {{this_trip.start_date}}</li>
+      <li>End Date: {{this_trip.end_date}}</li>
+      <li>Created On: {{this_trip.created_at}}</li>
+      <li>Last Updated: {{this_trip.updated_at}}</li>
+      <li>Plan:{{this_trip.plan}}</li>
+      <li>Created by: {{creator.first_name}}</li>
+    </ul>
+    <h3>People who have joined the trip:</h3>
+ 
+      </ul>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Edit Your Trip</title>
+  </head>
+  <body>
+    <h2>
+      Hello {{request.session.user_name}}! Would you like to edit your trip?
+    </h2>
+    <a href="/logout">Logout</a>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/edit_trip/{{trip_id}}" method="POST">
+      {% csrf_token %} 
+      Destination:
+      <input type="text" name="destination" value="{{destination}}" /><br />
+      Start Date:
+      <input type="date" name="start_date" value="2020-03-20" /><br />
+      End Date: <input type="date" name="end_date" value='2020-04-20' /><br />
+      Plan: <textarea name="plan">{{plan}}</textarea> <br />
+      <a href="/dashboard"> Cancel </a>
+      <input type="submit" value="Update" /><br />
+    </form>
+    {{ trip_id }}
+    {{ start_date }}
+    {{end_date}}
+  </body>
+</html>

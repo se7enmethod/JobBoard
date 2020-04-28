@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Buddy Dashboard</title>
+  </head>
+  <body>
+    <h2>Hello {{request.session.user_name}}!</h2>
+    <a href="/logout">Logout</a>
+    <form action="/create_trip">
+      <input type="submit" value="Create a new trip!" /><br>
+    Your trips:
+    <table>
+      <tr>
+        <th>Destination</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Plan</th>
+        <th>Action</th>
+      </tr>
+      {% for trip in my_trips %}
+      <tr>
+        <th><a href="/trips/{{trip.id}}">{{trip.destination}}</a></th>
+        <th>{{trip.start_date}}</th>
+        <th>{{trip.end_date}}</th>
+        <th>{{trip.plan}}</th>
+        <th><a href="/remove/{{trip.id}}">Remove</a> <a href="/edit/{{trip.id}}">Edit</a></th>
+      </tr>
+      {% endfor %}
+      {% for trip in others_trips %}
+      <tr>
+        <th><a href="/trips/{{trip.id}}">{{trip.destination}}Trip id{{trip.id}}</a></th>
+        <th>{{trip.start_date}}</th>
+        <th>{{trip.end_date}}</th>
+        <th>{{trip.plan}}</th>
+        <th><a href="/remove/{{trip.id}}">Remove</a><a href="/join{{trip.id}}">Join</a></th>
+      </tr>
+      {% endfor %}
+
+
+
+
+
+
+    </table>
+
+  </body>
+</html>
