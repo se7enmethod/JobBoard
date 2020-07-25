@@ -19,7 +19,7 @@
       {% endfor %}
     </ul>
     {% endif %}
-    <form action="/edit_trip/{{trip_id}}" method="POST">
+    <form action="/edit_job/{{job_id}}" method="POST">
       {% csrf_token %} 
       Destination:
       <input type="text" name="destination" value="{{destination}}" /><br />
@@ -30,7 +30,7 @@
       <a href="/dashboard"> Cancel </a>
       <input type="submit" value="Update" /><br />
     </form>
-    {{ trip_id }}
+    {{ job_id }}
     {{ start_date }}
     {{end_date}}
   </body>

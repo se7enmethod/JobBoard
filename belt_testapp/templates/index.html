@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trip Buddy</title>
+    <title>The Wishing App</title>
   </head>
   <body>
-    <h1>Welcome! Let's Travel!</h1>
+    <h1>Welcome! Sign in to manage your jobs!</h1>
 
-    <h3>Register</h3>
+    <h4>Register</h4>
     {% if messages %}
     <ul class="messages">
       {% for message in messages %}
@@ -27,7 +27,7 @@
       Confirm pw: <input type="password" name="confirm_pw" /><br />
       <input type="submit" value="Register" /><br />
     </form>
-    <h3>Login:</h3>
+    <h4>Login</h4>
       </li>
     </ul>
     <form action="/login" method="POST">

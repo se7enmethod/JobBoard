@@ -3,38 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trip Buddy Dashboard</title>
+    <title>Handy Helper Dashboard</title>
   </head>
   <body>
+	  <h1>Welcome to Handy Helper!</h1>
     <h2>Hello {{request.session.user_name}}!</h2>
     <a href="/logout">Logout</a>
-    <form action="/create_trip">
-      <input type="submit" value="Create a new trip!" /><br>
-    Your trips:
+    <form action="/create_job">
+      <input type="submit" value="New Job!" /><br>
+    Everyone's Jobs:
     <table>
       <tr>
-        <th>Destination</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Plan</th>
-        <th>Action</th>
+        <th>Job</th>
+        <th>Location</th>
+        <th>Actions</th>
       </tr>
-      {% for trip in my_trips %}
+      {{ job_title }}
+      {% for job in all_jobs %}
       <tr>
-        <th><a href="/trips/{{trip.id}}">{{trip.destination}}</a></th>
-        <th>{{trip.start_date}}</th>
-        <th>{{trip.end_date}}</th>
-        <th>{{trip.plan}}</th>
-        <th><a href="/remove/{{trip.id}}">Remove</a> <a href="/edit/{{trip.id}}">Edit</a></th>
+        <th><a href="/jobs/{{job.id}}">{{trip.destination}}</a></th>
+        <th>{{job_title}}</th>
+        <th>{{job.location}}</th>
+        <th><a href="/remove/{{job.id}}">Remove</a> <a href="/edit/{{job.id}}">Edit</a></th>
+        <th><a href="/view/{{job.id}}">Remove</a> <a href="/add/{{job.id}}">Edit</a></th>
       </tr>
       {% endfor %}
-      {% for trip in others_trips %}
+      {% for job in others_jobs %}
       <tr>
-        <th><a href="/trips/{{trip.id}}">{{trip.destination}}Trip id{{trip.id}}</a></th>
-        <th>{{trip.start_date}}</th>
-        <th>{{trip.end_date}}</th>
-        <th>{{trip.plan}}</th>
-        <th><a href="/remove/{{trip.id}}">Remove</a><a href="/join{{trip.id}}">Join</a></th>
+        <th><a href="/jobs/{{job.id}}">{{job.destination}}Job id{{job.id}}</a></th>
+        <th>{{job.start_date}}</th>
+        <th>{{job.end_date}}</th>
+        <th>{{job.plan}}</th>
+        <th><a href="/remove/{{job.id}}">Remove</a><a href="/join{{job.id}}">Join</a></th>
       </tr>
       {% endfor %}
 

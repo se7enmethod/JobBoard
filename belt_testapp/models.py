@@ -16,14 +16,13 @@ class UserManager(models.Manager):
         return errors
 
 
-class TripManager(models.Manager):
-    def trip_validator(self, post_Data):
+class JobManager(models.Manager):
+    def job_validator(self, post_Data):
         errors = {}
-        if len(post_Data['destination']) < 3:
-            errors['destination'] = "A trip destination must be at least 3 charaters"
-        if len(post_Data['plan']) < 2:
-            errors['plan'] = "A plan must be provided"
-
+        if len(post_Data['job_title']) < 3:
+            errors['job_title'] = "Job title must consist of at least 3 charaters"
+        if len(post_Data['location']) < 1:
+            errors['location'] = "A location must be provided"
         return errors
 
 
@@ -37,15 +36,10 @@ class User(models.Model):
     objects = UserManager()
 
 
-class Trip(models.Model):
-    destination = models.CharField(max_length=45)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    plan = models.TextField(max_length=1000)
-    user = models.ManyToManyField(User, related_name='trips')
-    
-    objects = TripManager()
-
-
-
-
+class Job(models.Model):
+    job_title=models.CharField(max_length=45)
+    location = models.CharField(max_length=45)
+    description = models.TextField(max_length=1000)
+    category = models.TextField(max_length=45)
+    user = models.ManyToManyField(User, related_name='jobs')
+    objects = JobManager()

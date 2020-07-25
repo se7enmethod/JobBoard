@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-from .models import User, Trip
+from .models import User, Job
 
 
 def index(request):
@@ -16,8 +16,7 @@ def register(request):
         print('there was an error, try again')
         return redirect('/')
     else:
-        new_user = User.objects.create(
-            first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=request.POST['password'])
+        new_user = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=request.POST['password'])
         request.session['user_id'] = new_user.id
         request.session['user_name'] = new_user.first_name
         print('created user redirect to dashboard')
@@ -42,93 +41,93 @@ def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('/')
     this_user = request.session['user_id']
-    my_trips = Trip.objects.filter(user=this_user)
-    others_trips = Trip.objects.exclude(user=this_user)
+    my_jobs = Job.objects.filter(user=this_user)
+    others_jobs = Job.objects.exclude(user=this_user)
     context = {
         "this_user": this_user,
-        "my_trips": my_trips,
-        "others_trips":others_trips
+        "my_job": my_jobs,
+        "others_jobs":others_jobs
         }
     return render(request, 'dashboard.html', context)
 
-def create_trip(request):
-    return render(request, 'create_trip.html')
+def create_job(request):
+    return render(request, 'create_job.html')
 
-def process_trip(request):
+def process_job(request):
     print(request.POST)
-    errors = Trip.objects.trip_validator(request.POST)
+    errors = Job.objects.job_validator(request.POST)
     if len(errors) > 0:
         for key, value in errors.items():
             messages.error(request, value)
-        return redirect('/create_trip')
-    destination = request.POST['destination']
-    start_date = request.POST['start_date']
-    end_date = request.POST['end_date']
-    plan = request.POST['plan']
+        return redirect('/create_job')
+    job_title = request.POST['job_title']
+    category = request.POST['category']
+    location = request.POST['location']
+    description = request.POST['description']
     context = {
-        "destination": destination,
-        "start_date": start_date,
-        "end_date": end_date,
-        "plan": plan,
+        "job_title": job_title,
+        "category": category,
+        "location": location,
+        "description": description,
     }
-    new_trip = Trip.objects.create(
-        destination=request.POST['destination'], start_date=request.POST['start_date'], end_date=request.POST['end_date'], plan=request.POST['plan'])
+    new_job = Job.objects.create(
+        job_title=request.POST['job_title'], category=request.POST['category'], location=request.POST['location'], description=request.POST['description'])
     user_one = User.objects.get(id=request.session['user_id'])
-    new_trip.user.add(user_one)
+    new_job.user.add(user_one)
     return redirect('/dashboard', context)
 
-def view_trip(request, trip_id):
-    print(trip_id)
-    this_trip=Trip.objects.get(id=trip_id)
+def view_job(request, job_id):
+    print(job_id)
+    this_job=Job.objects.get(id=job_id)
     user_name=request.session['user_name']
     user_id = request.session['user_id']
-    creator=User.objects.get(trips=trip_id)
+    creator=User.objects.get(jobs=job_id)
     context = {
-        'this_trip':this_trip,
+        'this_job':this_job,
         'user_id':user_id,
         'user_name':user_name,
         'creator':creator,
     }
     print(creator)
-    return render(request, 'view_trip.html', context)
+    return render(request, 'view_job.html', context)
 
-def join_trip(request, trip_id):
+def join_job(request, job_id):
     pass
 
 
-def edit_trip(request, trip_id):
-    print(trip_id)
-    trip_to_edit=Trip.objects.get(id=trip_id)
-    destination = trip_to_edit.destination
-    start_date = trip_to_edit.start_date
-    end_date = trip_to_edit.end_date
-    plan = trip_to_edit.plan
+def edit_job(request, job_id):
+    print(job_id)
+    job_to_edit=Job.objects.get(id=job_id)
+    destination = job_to_edit.destination
+    start_date = job_to_edit.start_date
+    end_date = job_to_edit.end_date
+    plan = job_to_edit.plan
     context = {
         "destination": destination,
         "start_date": start_date,
         "end_date": end_date,
         "plan": plan,
-        "trip_id":trip_id
+        "job_id":job_id
     }
     print(end_date)
-    return render(request, "edit_trip.html", context)
+    return render(request, "edit_job.html", context)
 
-def process_edit_trip(request, trip_id):
-    print(trip_id)
-    x = trip_id
-    errors = Trip.objects.trip_validator(request.POST)
+def process_edit_job(request, job_id):
+    print(job_id)
+    x = job_id
+    errors = Job.objects.job_validator(request.POST)
     if len(errors) > 0:
         for key, value in errors.items():
             messages.error(request, value)
-        return redirect('/edit/<int:trip_id>')
-    trip_to_update=Trip.objects.get(id=trip_id)
-    destination = trip_to_update.destination=request.POST['destination']
-    start_date = trip_to_update.start_date=request.POST['start_date']
-    end_date = trip_to_update.end_date=request.POST['end_date']
-    plan = trip_to_update.plan=request.POST['plan']
-    trip_to_update.save()
+        return redirect('/edit/<int:job_id>')
+    job_to_update=Job.objects.get(id=job_id)
+    destination = job_to_update.destination=request.POST['destination']
+    start_date = job_to_update.start_date=request.POST['start_date']
+    end_date = job_to_update.end_date=request.POST['end_date']
+    plan = job_to_update.plan=request.POST['plan']
+    job_to_update.save()
     context = {
-        "trip_id" : trip_id,
+        "job_id" : job_id,
         "destination": destination,
         "start_date":start_date,
         "end_date":end_date,
@@ -136,9 +135,9 @@ def process_edit_trip(request, trip_id):
     }
     return redirect('/dashboard', context)
 
-def remove_trip(request, trip_id):
-    trip_to_remove=Trip.objects.get(id=trip_id)
-    trip_to_remove.delete()
+def remove_job(request, job_id):
+    job_to_remove=Job.objects.get(id=job_id)
+    job_to_remove.delete()
     return redirect('/dashboard')
 
 def logout(request):
